@@ -70,11 +70,11 @@ function installOhMyZsh {
 
 function execOhMyZshAsUser {
 
-	ret=false	
+	ret=false
 	id -u $1 >/dev/null 2>&1 && ret=true
 
 	if $ret; then
-		/bin/su/ - $1 -c "./installOhMyZsh.sh"
+		su - $1 -c "./installOhMyZsh.sh"
 		echo "oh-my-zsh for $1 installed"
 	else
 	    echo "User does not exist - abort"
