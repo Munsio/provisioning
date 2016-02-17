@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
+
 ZSH_FIRST_RUN=true
 
 function init {
@@ -31,9 +33,9 @@ function startUpdating {
 	echo "##########################################"
 	echo ""
 
-	apt-get update && apt-get upgrade | yes
+	apt-get update && apt-get upgrade
 
-	apt-get install git vim zsh sudo wget | yes
+	apt-get install git vim zsh curl sudo wget htop
 
 	echo "finished installing base programs"
 }
@@ -74,7 +76,7 @@ function execOhMyZshAsUser {
 	id -u $1 >/dev/null 2>&1 && ret=true
 
 	if $ret; then
-		su - $1 -c "./installOhMyZsh.sh"
+		su $1 installOhMyZsh.sh
 		echo "oh-my-zsh for $1 installed"
 	else
 	    echo "User does not exist - abort"
