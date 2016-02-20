@@ -47,7 +47,7 @@ function installBasePrograms {
 	echo "finished installing base programs"
 }
 
-function installBasePrograms {
+function installDocker {
 
 	echo ""
 	echo "##########################################"
