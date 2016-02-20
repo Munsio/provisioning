@@ -13,17 +13,24 @@ function init {
 	echo ""
 	echo "!! Be sure to run this script as root or sudo !!"
 	echo ""
-	echo "Do you want to continue?"
-	select yn in "Yes" "No"; do
-	    case $yn in
-	        Yes ) break;;
-	        No ) exit;;
+	echo "Greetings my friend what do you want to install?"
+	echo ""
+	select option in \
+			"Base programs" \
+			"Newest docker system" \
+			"oh-my-zsh" \
+			"exit";
+		do
+	    case "$REPLY" in
+	        1 ) installBasePrograms;;
+			2 ) installDocker;;
+			3 ) installOhMyZsh;;
+	        4 ) exit;;
 	    esac
 	done
 }
 
-
-function startUpdating {
+function installBasePrograms {
 
 	echo ""
 	echo "##########################################"
@@ -40,8 +47,37 @@ function startUpdating {
 	echo "finished installing base programs"
 }
 
+function installBasePrograms {
+
+	echo ""
+	echo "##########################################"
+	echo "##                                      ##"
+	echo "##   Installing newest docker-engine    ##"
+	echo "##                                      ##"
+	echo "##########################################"
+	echo ""
+
+	apt-get install apt-transport-https ca-certificates
+
+	apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+	echo "deb https://apt.dockerproject.org/repo debian-jessie main" > /etc/apt/sources.list.d/docker.list
+
+	apt-get update
+
+	apt-get install docker-engine
+
+	echo "finished installing newest docker-engine"
+}
+
 function installOhMyZsh {
 
+	echo ""
+	echo "##########################################"
+	echo "##                                      ##"
+	echo "##         Installing oh-my-zsh         ##"
+	echo "##                                      ##"
+	echo "##########################################"
 	echo ""
 	if $ZSH_FIRST_RUN; then
 		ZSH_FIRST_RUN=false
@@ -84,9 +120,6 @@ function execOhMyZshAsUser {
 
 }
 
-
-init
-startUpdating
-installOhMyZsh
-echo "Installation process finished - good luck & have fun"
-exit
+while true; do
+	init
+done
